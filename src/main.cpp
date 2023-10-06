@@ -2,7 +2,6 @@
 #pragma GCC target("avx,avx2,fma")
 
 #include <iostream>
-
 #include <functional>
 #include <vector>
 #include <memory>
