@@ -7,17 +7,21 @@
 #include <vector>
 #include <memory>
 #include <stdexcept>
-#include "./EventLoop.hpp"
-#include "TimerWrapper.hpp"
-#include "CheckWrapper.hpp"
-#include "IdleWrapper.hpp"
-#include "PrepareWrapper.hpp"
-#include "CurlHandlePool.hpp"
-#include "CurlMultiWrapper.hpp"
-#include "Document.hpp"
-#include "URLRequestManager.hpp"
-#include "Parser.hpp"
-#include "PollWrapper.hpp"
+
+#include "async/EventLoop.hpp"
+#include "async/TimerWrapper.hpp"
+#include "async/CheckWrapper.hpp"
+#include "async/IdleWrapper.hpp"
+#include "async/PrepareWrapper.hpp"
+#include "async/PollWrapper.hpp"
+
+#include "net/CurlHandlePool.hpp"
+#include "net/CurlMultiWrapper.hpp"
+#include "net/URLRequestManager.hpp"
+
+#include "parser/Document.hpp"
+#include "parser/Parser.hpp"
+
 
 class Async{
     std::size_t curl_pool_sz , curl_buf_sz;

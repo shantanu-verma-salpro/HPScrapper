@@ -5,6 +5,7 @@
 #include "HandleWrapperBase.hpp"
 #include <functional>
 #include "EventLoop.hpp"
+#include <curl/curl.h>
 
 class PollWrapper final : public HandleWrapperBase {
 
