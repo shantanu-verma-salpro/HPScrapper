@@ -1,35 +1,29 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(YourCPPProject)
+project(MyProject)
 
+# Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Search for required packages
+# Find required packages
 find_package(CURL REQUIRED)
-find_package(Threads REQUIRED) # Some systems might require this for libuv
+find_package(Threads REQUIRED)
+find_package(UV REQUIRED)
 
-# Assuming libuv and lexbor use pkg-config, or you can adjust based on their setup
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(UV REQUIRED libuv)
-pkg_check_modules(LEXBOR REQUIRED lexbor)
+# Add all source files and header files to the executable
+file(GLOB SOURCES "src/*.cpp" "src/*.hpp")
 
-# If you have multiple source files, list them all. For this example, I'll assume there's just a main.cpp
-add_executable(YourCPPProject src/main.cpp)
+add_executable(${PROJECT_NAME} ${SOURCES})
 
-# Link the required libraries
-target_link_libraries(YourCPPProject 
-    CURL::CURL 
-    ${UV_LIBRARIES} 
-    ${LEXBOR_LIBRARIES}
-    Threads::Threads # If you need threading support
-)
+# Link the libraries to your project
+target_link_libraries(${PROJECT_NAME} 
+                      PRIVATE 
+                      CURL::libcurl
+                      Threads::Threads
+                      UV::UV)
 
-# Include the necessary directories
-target_include_directories(YourCPPProject PRIVATE 
-    ${UV_INCLUDE_DIRS} 
-    ${LEXBOR_INCLUDE_DIRS}
-)
-
-# If you have tests using CTest
-# enable_testing()
-# add_test(NAME YourTestName COMMAND YourCPPProject)
+# Assuming lexbor has CMake config files, you can use this:
+find_package(lexbor CONFIG REQUIRED)
+target_link_libraries(${PROJECT_NAME} PRIVATE liblexbor::liblexbor)
