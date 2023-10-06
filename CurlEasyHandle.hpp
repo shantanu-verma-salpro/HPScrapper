@@ -149,7 +149,7 @@ public:
     template<typename T>
     void setProgressCallback(const curl_progress_callback cb, T clientData) noexcept {
         static_assert(!std::is_fundamental<T>::value,"Data of fundamental type is not allowed for progress callback");
-        if (cb) setOption(CURLOPT_XFERINFOFUNCTION, cb, "CURLOPT_XFERINFOFUNCTION");
+        setOption(CURLOPT_XFERINFOFUNCTION, cb, "CURLOPT_XFERINFOFUNCTION");
         setOption(CURLOPT_XFERINFODATA, static_cast<void*>(clientData), "CURLOPT_XFERINFODATA");
         setOption(CURLOPT_NOPROGRESS, 0L, "CURLOPT_NOPROGRESS");
     }
@@ -157,7 +157,7 @@ public:
     template<typename T>
     void setHeaderCallback(size_t (*cb)(char*, size_t, size_t, void*), T buffer) noexcept {
         static_assert(!std::is_fundamental<T>::value, "Buffer of fundamental type is not allowed");
-        if (cb) setOption(CURLOPT_HEADERFUNCTION, cb, "CURLOPT_HEADERFUNCTION");
+        setOption(CURLOPT_HEADERFUNCTION, cb, "CURLOPT_HEADERFUNCTION");
         setOption(CURLOPT_HEADERDATA, static_cast<void*>(buffer), "CURLOPT_HEADERDATA");
     }
 
