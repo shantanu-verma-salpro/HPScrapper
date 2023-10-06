@@ -23,13 +23,14 @@ jobs:
     - name: install libcurl and libuv
       run: sudo apt install -y libcurl4-openssl-dev libuv1-dev pkg-config
 
-    - name: install lexbor
-      run: curl -O https://lexbor.com/keys/lexbor_signing.key
-           sudo apt-key add lexbor_signing.key
-           echo "deb https://packages.lexbor.com/ubuntu/ focal liblexbor" | sudo tee -a /etc/apt/sources.list.d/lexbor.list
-           echo "deb-src https://packages.lexbor.com/ubuntu/ focal liblexbor" | sudo tee -a /etc/apt/sources.list.d/lexbor.list
-           sudo apt update
-           sudo apt install -y liblexbor liblexbor-dev
+    - name: Install lexbor dependencies
+      run: |
+        curl -O https://lexbor.com/keys/lexbor_signing.key
+        sudo apt-key add lexbor_signing.key
+        echo "deb https://packages.lexbor.com/ubuntu/ focal liblexbor" | sudo tee -a /etc/apt/sources.list.d/lexbor.list
+        echo "deb-src https://packages.lexbor.com/ubuntu/ focal liblexbor" | sudo tee -a /etc/apt/sources.list.d/lexbor.list
+        sudo apt update
+        sudo apt install -y liblexbor liblexbor-dev
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
