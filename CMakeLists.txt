@@ -1,29 +1,28 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(MyProject)
+project(HPScrapper)
 
-# Set C++ standard
+# Specify the required C++ standard
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Find required packages
-find_package(CURL REQUIRED)
-find_package(Threads REQUIRED)
-find_package(UV REQUIRED)
+# Include directories for libcurl, libuv, and lexbor
+include_directories(/usr/include)
 
-# Add all source files and header files to the executable
-file(GLOB SOURCES "src/*.cpp" "src/*.hpp")
+# Include directories for lexbor (adjust if the headers are located elsewhere)
+include_directories(/usr/include/lexbor)
 
+# Specify the source files
+file(GLOB SOURCES "src/*.cpp")
+
+# Create the executable
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-# Link the libraries to your project
-target_link_libraries(${PROJECT_NAME} 
-                      PRIVATE 
-                      CURL::libcurl
-                      Threads::Threads
-                      UV::UV)
+# Link directories for libcurl and libuv (On Ubuntu, they are often in these directories)
+link_directories(/usr/lib/x86_64-linux-gnu)
 
-# Assuming lexbor has CMake config files, you can use this:
-find_package(lexbor CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE liblexbor::liblexbor)
+# Link directories for lexbor (adjust if the libraries are located elsewhere)
+link_directories(/usr/lib)
+
+# Link the required libraries to your project
+target_link_libraries(${PROJECT_NAME} curl uv lexbor)
