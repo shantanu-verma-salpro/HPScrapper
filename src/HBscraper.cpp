@@ -1,5 +1,4 @@
-#ifndef ASYNC
-#define ASYNC
+
 
 #include <iostream>
 #include <functional>
@@ -367,4 +366,3 @@ public:
    
 };
 
-#endif
