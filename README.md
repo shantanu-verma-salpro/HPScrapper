@@ -18,6 +18,20 @@ HBScraper is a high-performance, event-driven utility designed to asynchronously
 -   **Extensible**: Provides wrappers for `curl`, `libuv`, and `lexbor` for independent use.
 -   **Modern C++**: Harnesses modern C++ capabilities for optimized memory management and a more intuitive API.
 
+
+## 🚀 Remaining Tasks
+
+Here's our prioritized roadmap:
+
+1.  ✅ **Proxy Handling**: Enhance for speed and reliability.
+2.  ⚙️ **Error Management**: Better error insights and debugging.
+3.  🌐 **Multi-Processing**: Boost performance through parallel processing.
+4.  🌍 **Headless Chrome**: Access JS-rendered pages efficiently.
+5.  📚 **Expand Documentation**: Cover all features and use-cases.
+6.  🧪 **CI/CD Improvements**: Streamline updates.
+7.  🏁 **Performance Benchmarks**: Compare against competitors.
+8.  🎙️ **Engage the Community**: Webinars, tutorials, and feedback sessions.
+
 ## 📚 Table of Contents
 
 -   [Prerequisites](#prerequisites)
