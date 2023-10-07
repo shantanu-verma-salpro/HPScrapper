@@ -7,68 +7,86 @@
 
 class Node {
 
-    bool isValidElement(lxb_dom_node_t* node) const {
-        return node_->type == LXB_DOM_NODE_TYPE_ELEMENT && !lxb_dom_node_is_empty(node_);
+    bool isElementNode(lxb_dom_node_t* node) const {
+        return node->type == LXB_DOM_NODE_TYPE_ELEMENT;
+    }
+
+    bool isTextNode(lxb_dom_node_t* node) const {
+        return node->type == LXB_DOM_NODE_TYPE_TEXT;
+    }
+
+    bool hasChildElements(lxb_dom_node_t* node) const {
+        return !lxb_dom_node_is_empty(node);
+    }
+
+    lxb_dom_node_t* getNextElementNode(lxb_dom_node_t* node) const{
+        lxb_dom_node_t* childNode = node;
+        while(childNode!=nullptr){
+            if(isElementNode(childNode)) break;
+            childNode = lxb_dom_node_next(childNode);
+        }
+        return childNode;
+    }
+
+    lxb_dom_node_t* getPrevElementNode(lxb_dom_node_t* node) const{
+        lxb_dom_node_t* childNode = node;
+        while(childNode!=nullptr){
+            if(isElementNode(childNode)) break;
+            childNode = lxb_dom_node_prev(childNode);
+        }
+        return childNode;
     }
 
 public:
     Node(lxb_dom_node_t* node, lxb_html_document_t* document , DomCollection&  col)
         : node_(node), document_(document),collection_(col) {}
 
+    lxb_dom_node_t* get() const noexcept{
+        return node_;
+    }
+
+    bool hasChildElements () const{
+        return hasChildElements(node_);
+    }
 
     std::unique_ptr<Node> firstChild() const {
-        if(!isValidElement(node_)) return nullptr;
+        if(!hasChildElements(node_)) return nullptr;
         lxb_dom_node_t* childNode = lxb_dom_node_first_child(node_);
-        while(childNode!=nullptr){
-            if(!lxb_dom_node_is_empty(childNode)) break;
-            childNode = lxb_dom_node_next(childNode);
-        }
-        if(childNode == nullptr) return nullptr;
-        return std::make_unique<Node>(childNode,document_,collection_);
+        childNode = getNextElementNode(childNode);
+        if(!childNode) return nullptr;
+        return std::make_unique<Node>(childNode ,document_ ,collection_);
     }
 
     std::unique_ptr<Node> lastChild() const {
-        if(!isValidElement(node_)) return nullptr;
+        if(!hasChildElements(node_)) return nullptr;
         lxb_dom_node_t* childNode = lxb_dom_node_last_child(node_);
-        while(childNode!=nullptr){
-            if(!lxb_dom_node_is_empty(childNode)) break;
-            childNode = lxb_dom_node_prev(childNode);
-        }
-        if(childNode == nullptr) return nullptr;
-        return std::make_unique<Node>(childNode,document_,collection_);
+        childNode = getPrevElementNode(childNode);
+        if(!childNode) return nullptr;
+        return std::make_unique<Node>(childNode ,document_ ,collection_);
     }
 
     std::unique_ptr<Node> nextSibling() const {
-        if(!isValidElement(node_)) return nullptr;
-        lxb_dom_node_t* siblingNode = lxb_dom_node_next(node_);
-        while(siblingNode!=nullptr){
-            if(!lxb_dom_node_is_empty(siblingNode)) break;
-            siblingNode = lxb_dom_node_next(siblingNode);
-        }
-        if(siblingNode== nullptr) return nullptr;
+        lxb_dom_node_t* siblingNode = getNextElementNode(node_);;
+        if(!siblingNode) return nullptr;
         return std::make_unique<Node>(siblingNode,document_,collection_);
     }
 
     std::unique_ptr<Node> prevSibling() const {
-        if(!isValidElement(node_)) return nullptr;
-        lxb_dom_node_t* siblingNode = lxb_dom_node_prev(node_);
-        while(siblingNode!=nullptr){
-            if(!lxb_dom_node_is_empty(siblingNode)) break;
-            siblingNode = lxb_dom_node_prev(siblingNode);
-        }
-        if(siblingNode== nullptr) return nullptr;
+        lxb_dom_node_t* siblingNode = getPrevElementNode(node_);;
+        if(!siblingNode) return nullptr;
         return std::make_unique<Node>(siblingNode,document_,collection_);
     }
 
     const std::string getAttribute(const std::string& name) const {
-        if(!isValidElement(node_)) return {};
+        if(!isElementNode(node_)) return {};
+
         auto* element = lxb_dom_interface_element(node_);
         if (!element) {
             throw std::runtime_error("Node is not an element");
         }
         auto* attr = lxb_dom_element_attr_by_name(element, reinterpret_cast<const lxb_char_t*>(name.c_str()), name.length());
         if (!attr) {
-            return "";  // Attribute not found
+            return ""; 
         }
         std::size_t len;
         const char* str = reinterpret_cast<const char*>(lxb_dom_attr_value(attr, &len));
@@ -77,16 +95,17 @@ public:
 
     std::unique_ptr<NodeList> getChildElements() const {
         collection_.clean();
+        if(!hasChildElements(node_)) return nullptr;
         return getElementsByTagName("*");
     }
 
     const bool hasAttributes() const {
-        if(!isValidElement(node_)) return false;
+        if(!isElementNode(node_)) return false;
         return lxb_dom_element_has_attributes(lxb_dom_interface_element(node_));
     }
 
     const bool hasAttribute(const std::string& attr) const{
-        if(!isValidElement(node_)) return {};
+        if(!isElementNode(node_)) return {};
         auto* element = lxb_dom_interface_element(node_);
         const lxb_char_t* name = reinterpret_cast<const lxb_char_t*>(attr.c_str());
         return lxb_dom_element_has_attribute(element ,name , attr.length());
@@ -94,7 +113,7 @@ public:
 
     std::unique_ptr<std::unordered_map<std::string, std::string>> getAttributes() const {
         auto mp = std::make_unique<std::unordered_map<std::string, std::string>>();
-        if(!isValidElement(node_)) return mp;
+        if(!isElementNode(node_)) return mp;
         auto* element = lxb_dom_interface_element(node_);
         lxb_dom_attr_t* attr = lxb_dom_element_first_attribute(element);
         std::size_t len = 0;
@@ -120,13 +139,21 @@ public:
         std::string str;
         lxb_char_t * s {nullptr};
         std::size_t len = 0;
-        if(node_->type == LXB_DOM_NODE_TYPE_TEXT) s = lxb_dom_node_text_content(node_,&len);
-        return s ? std::string(reinterpret_cast<const char*>(s),len) : "";
+        lxb_dom_node_t* childNode = lxb_dom_node_first_child(node_);
+        while(childNode!=nullptr){
+            if(isTextNode(childNode)){
+                s = lxb_dom_node_text_content(childNode,&len);
+                str += std::string(reinterpret_cast<const char*>(s),len);
+            }
+            childNode = lxb_dom_node_next(childNode);
+        }
+
+        return str;
     }
 
     std::unique_ptr<NodeList> getElementsByClassName(const std::string& className) const {
         collection_.clean();
-        if(!isValidElement(node_)) return nullptr;
+        if(!isElementNode(node_) || !hasChildElements(node_)) return nullptr;
         auto* element = lxb_dom_interface_element(node_);
         const lxb_char_t * name = reinterpret_cast<const lxb_char_t *>(className.c_str());
         lxb_status_t status = lxb_dom_elements_by_class_name(element, collection_.get(), name, className.length());
@@ -138,7 +165,7 @@ public:
 
     std::unique_ptr<NodeList> getElementsByTagName(const std::string& className) const {
         collection_.clean();
-        if(!isValidElement(node_)) return nullptr;
+        if(!isElementNode(node_) || !hasChildElements(node_)) return nullptr;
         auto* element = lxb_dom_interface_element(node_);
         const lxb_char_t * name = reinterpret_cast<const lxb_char_t *>(className.c_str());
         lxb_status_t status = lxb_dom_elements_by_tag_name(element, collection_.get(), name, className.length());
@@ -150,7 +177,7 @@ public:
 
     std::unique_ptr<NodeList> getElementsByAttribute(const std::string& key, const std::string& value) const {
         collection_.clean();
-        if(!isValidElement(node_)) return nullptr;
+        if(!isElementNode(node_) || !hasChildElements(node_)) return nullptr;
         auto* element = lxb_dom_interface_element(node_);
         const lxb_char_t * name = reinterpret_cast<const lxb_char_t *>(key.c_str());
         const lxb_char_t * val = reinterpret_cast<const lxb_char_t *>(value.c_str());
