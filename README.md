@@ -38,9 +38,7 @@ Before diving in, ensure you have installed the following libraries:
 
 ### 1. **Compilation**:
 
-
-
-`$ g++ your_source_file.cpp -o scraper -lcurl -luv -llexbor -Ofast` 
+` $ g++ your_source_file.cpp -o scraper -lcurl -luv -llexbor -Ofast ` 
 
 ### 2. **Initialization**:
 
@@ -64,7 +62,7 @@ scraper->setHttpVersion(HTTP::HTTP2);
 For additional settings:
 
  ```cpp
- scraper->setVerbose(true);
+scraper->setVerbose(true);
 scraper->setProxy("188.87.102.128", 3128);`
 ```
 
@@ -73,7 +71,7 @@ scraper->setProxy("188.87.102.128", 3128);`
 Start your scraping journey:
 
 ```cpp
-`scraper->seed("https://www.google.com/");
+scraper->seed("https://www.google.com/");
 ```
 
 ### 5. **Event Management**:
@@ -113,10 +111,8 @@ HBScraper is licensed under the [MIT](https://choosealicense.com/licenses/mit/)
 Acknowledgements
 This software uses the following libraries:
 
-libcurl: Licensed under the MIT License.
+`libcurl`  : Licensed under the MIT License.
+`libuv`    : Licensed under the MIT License.
+`liblexbor`: Licensed under the Apache License, Version 2.0.
 
-libuv: Licensed under the MIT License.
-
-liblexbor: Licensed under the Apache License, Version 2.0.
-
-When using HBScraper, please ensure you comply with the requirements and conditions of all included licenses.
+When using `HBScraper`, please ensure you comply with the requirements and conditions of all included licenses.
