@@ -108,4 +108,15 @@ We appreciate contributions! If you're considering significant modifications, ki
 
 ## 📄 License
 
-This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
+HBScraper is licensed under the [MIT](https://choosealicense.com/licenses/mit/)
+
+Acknowledgements
+This software uses the following libraries:
+
+libcurl: Licensed under the MIT License.
+
+libuv: Licensed under the MIT License.
+
+liblexbor: Licensed under the Apache License, Version 2.0.
+
+When using HBScraper, please ensure you comply with the requirements and conditions of all included licenses.
