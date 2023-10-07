@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <functional>
 
 enum HTTP {
     HTTP1 = CURL_HTTP_VERSION_1_0,
@@ -341,12 +342,19 @@ public:
 
     CURLcode perform() noexcept {
         CURLcode res = curl_easy_perform(curl_handle_.get());
-        if (res != CURLE_OK) {
-            std::cerr << "Curl request failed: " << curl_easy_strerror(res) << std::endl;
-        }
         return res;
     }
 
+    void fetch(std::function<void (CurlEasyHandle::Response*)> fn) noexcept{
+        CURLcode res = perform();
+        if(res != CURLE_OK) {
+            std::cerr << "Request failed: " << curl_easy_strerror(res) << '\n';
+            fn(nullptr);
+            return;
+        }
+        auto resp = response();
+        fn(resp.get());
+    }
 };
 
 #endif
