@@ -1,7 +1,7 @@
 <div align="center" width="100%"> 
+<img height="210" src="https://raw.githubusercontent.com/shantanu-verma-salpro/HPScrapper/master/.github/logo.png"> 
  
- ![HPScrapper logo](https://raw.githubusercontent.com/shantanu-verma-salpro/HPScrapper/master/.github/logo.png)
- 
+
 # HPScraper
 
 HPScraper is a high-performance, event-driven utility designed to asynchronously fetch and process web content. Equipped to manage multiple requests concurrently, it stands out with its efficiency and robustness.
