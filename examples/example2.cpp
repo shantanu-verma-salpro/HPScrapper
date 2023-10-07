@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <string>
 #include "../include/parser/Document.hpp"
@@ -5,7 +6,7 @@
 #include <lexbor/html/html.h>
 #include <lexbor/dom/interfaces/element.h>
 
-int main() {
+void run_parse_example() {
     std::string htmlContent = R"(
         <!DOCTYPE html>
         <html>
@@ -65,5 +66,4 @@ int main() {
         }
     }
 
-    return 0;
 }
