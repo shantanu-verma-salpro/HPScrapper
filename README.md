@@ -79,7 +79,7 @@ Kick off the scraping:
 
 Set up your custom event handlers:
 
-cpp
+
     scraper->onSuccess([](const CurlEasyHandle::Response& response, Async& instance, Document& page) {
         // Process...
     });
