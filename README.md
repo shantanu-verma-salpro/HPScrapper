@@ -1,9 +1,14 @@
+<div align="center" width="100%"> 
+ 
+ ![HPScrapper logo](https://raw.githubusercontent.com/shantanu-verma-salpro/HPScrapper/master/.github/logo.png)
+ 
+# HPScraper
 
-# HBScraper
-
-HBScraper is a high-performance, event-driven utility designed to asynchronously fetch and process web content. Equipped to manage multiple requests concurrently, it stands out with its efficiency and robustness.
+HPScraper is a high-performance, event-driven utility designed to asynchronously fetch and process web content. Equipped to manage multiple requests concurrently, it stands out with its efficiency and robustness.
 
 [![Build](https://github.com/shantanu-verma-salpro/HPScrapper/actions/workflows/build.yml/badge.svg)](https://github.com/shantanu-verma-salpro/HPScrapper/actions/workflows/build.yml)
+
+</div>
 
 ## 🌟 Features
 
@@ -105,7 +110,7 @@ scraper->run();
 
 ## ⚙️ Advanced Options
 
-HBScraper offers a myriad of options to fine-tune your scraping experience:
+HPScraper offers a myriad of options to fine-tune your scraping experience:
 
 -   `setMultiplexing(bool)`: Enable or disable HTTP/2 multiplexing.
 -   `setHttpVersion(HTTP)`: Opt for your preferred HTTP version.
@@ -289,7 +294,7 @@ We appreciate contributions! If you're considering significant modifications, ki
 
 ## 📄 License
 
-HBScraper is licensed under the [MIT](https://choosealicense.com/licenses/mit/)
+HPScraper is licensed under the [MIT](https://choosealicense.com/licenses/mit/)
 
 Acknowledgements
 This software uses the following libraries:
@@ -300,4 +305,4 @@ This software uses the following libraries:
 
 `liblexbor`: Licensed under the Apache License, Version 2.0.
 
-When using `HBScraper`, please ensure you comply with the requirements and conditions of all included licenses.
+When using `HPScraper`, please ensure you comply with the requirements and conditions of all included licenses.
