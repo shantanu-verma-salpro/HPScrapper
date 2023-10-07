@@ -24,11 +24,10 @@ HBScraper is a high-performance, event-driven utility designed to asynchronously
 Here's our prioritized roadmap:
 
 1.  ⚙️ **Error Management**: Better error insights and debugging.
-2.  🌐 **Multi-Processing**: Boost performance through parallel processing.
-3.  🌍 **Headless Chrome**: Access JS-rendered pages efficiently.
-4.  📚 **Expand Documentation**: Cover all features and use-cases.
-5.  🧪 **CI/CD Improvements**: Streamline updates.
-6.  🏁 **Performance Benchmarks**: Compare against competitors.
+2.  🌍 **Headless Chrome**: Access JS-rendered pages efficiently.
+3.  📚 **Expand Documentation**: Cover all features and use-cases.
+4.  🧪 **CI/CD Improvements**: Streamline updates.
+5.  🏁 **Performance Benchmarks**: Compare against competitors.
 
 ## 📚 Table of Contents
 
@@ -227,6 +226,44 @@ int main() {
     return 0;
 }
 ```
+
+## Using Eventloop
+
+```cpp
+int main() {
+   
+    EventLoop eventLoop;
+
+    TimerWrapper timer(eventLoop);
+    timer.on<TimerEvent, TimerWrapper>([](const TimerEvent&, TimerWrapper&) {
+        std::cout << "Timer triggered after 2 seconds!" << std::endl;
+    });
+    timer.start(2000, 0);  // Timeout of 2 seconds, no repeat
+
+   
+    IdleWrapper idle(eventLoop);
+    idle.on<IdleEvent, IdleWrapper>([](const IdleEvent&, IdleWrapper&) {
+        std::cout << "Idle handler running..." << std::endl;
+    });
+    idle.start();
+
+   
+    TimerWrapper stopTimer(eventLoop);
+    stopTimer.on<TimerEvent, TimerWrapper>([&eventLoop](const TimerEvent&, TimerWrapper&) {
+        std::cout << "Stopping event loop after 5 seconds..." << std::endl;
+        eventLoop.stop();
+    });
+    stopTimer.start(5000, 0);  
+
+
+    eventLoop.run();
+
+    return 0;
+}
+
+```
+
+`Check examples directory`
 
 ## 🤝 Contributing
 
