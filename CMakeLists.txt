@@ -13,7 +13,7 @@ include_directories(/usr/include)
 include_directories(/usr/include/lexbor)
 
 # Specify the source files
-file(GLOB SOURCES "src/*.cpp")
+file(GLOB SOURCES "src/*.cpp" "examples/*.cpp")
 
 # Create the executable
 add_executable(${PROJECT_NAME} ${SOURCES})
