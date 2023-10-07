@@ -7,6 +7,9 @@
 HPScraper is a high-performance, event-driven utility designed to asynchronously fetch and process web content. Equipped to manage multiple requests concurrently, it stands out with its efficiency and robustness.
 
 [![Build](https://github.com/shantanu-verma-salpro/HPScrapper/actions/workflows/build.yml/badge.svg)](https://github.com/shantanu-verma-salpro/HPScrapper/actions/workflows/build.yml)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/shantanu-verma-salpro/HPScrapper)
+![GitHub](https://img.shields.io/github/license/shantanu-verma-salpro/HPScrapper)
+
 
 </div>
 
